@@ -43,3 +43,30 @@ SELECT * , @vacationRequestID as vacationID_FK FROM OPENJSON(@json2)
 
 SELECT * FROM VacationRequests
 SELECT * FROM vacationDetails
+
+
+=======================================================================================================================================
+
+
+DECLARE @json1 NVARCHAR(MAX)
+SET @json1='{"info":{"branchName":"a","branchNameE":"a","contactPhoneNO":"a","contactName":"a","description":"a"},"settings":{"minOrderAmount":"a","isPaymentViaCash":true,"isPaymentViaCredit":true,"storeBranchStatusID_FK":true},"location":{"latitude":"28.405271035560833","longitude":"36.526270270115106"},"workingHours":{"SAT":{"SATchecked":true,"SATfromTime1":"09:30","SATtoTime1":"09:30","SATfromTime2":"09:30","SATtoTime2":"09:30"},"SUN":{"SUNchecked":true,"SUNfromTime1":"09:30","SUNtoTime1":"09:30","SUNfromTime2":"09:30","SUNtoTime2":"09:30"},"MON":{"MONchecked":true,"MONfromTime1":"09:30","MONtoTime1":"09:30","MONfromTime2":"09:30","MONtoTime2":"09:30"},"TUS":{"TUSchecked":true,"TUSfromTime1":"09:30","TUStoTime1":"09:30","TUSfromTime2":"09:30","TUStoTime2":"09:30"},"WED":{"WEDchecked":true,"WEDfromTime1":"09:30","WEDtoTime1":"09:30","WEDfromTime2":"09:30","WEDtoTime2":"09:30"},"THU":{"THUchecked":true,"THUfromTime1":"09:30","THUtoTime1":"09:30","THUfromTime2":"09:30","THUtoTime2":"09:30"},"FRI":{"FRIchecked":true,"FRIfromTime1":"09:30","FRItoTime1":"09:30","FRIfromTime2":"09:30","FRItoTime2":"09:30"}}}';
+SELECT * FROM OPENJSON(@json1) 
+DECLARE @info TABLE (branchName NVARCHAR(50) , branchNameE NVARCHAR(50)  , SATchecked NVARCHAR(50))
+INSERT INTO @info 
+SELECT * FROM OPENJSON(@json1) 
+WITH (
+    branchName NVARCHAR(50) '$.info.branchName',
+	branchNameE NVARCHAR(50) '$.info.branchNameE',
+	SATchecked NVARCHAR(50) '$.workingHours.SAT.SATchecked'
+)
+SELECT * FROM @info 
+
+
+
+
+
+
+
+
+
+
